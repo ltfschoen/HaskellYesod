@@ -15,6 +15,7 @@ Requirements
 Continuous Integration
 -------
 
+[![Build Status](https://travis-ci.org/ltfschoen/HaskellYesod.svg?branch=master)](https://travis-ci.org/ltfschoen/HaskellYesod)
 * [Travis CI Tests Status](https://travis-ci.org/ltfschoen/HaskellYesod)
 
 
