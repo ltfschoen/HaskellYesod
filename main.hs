@@ -15,19 +15,23 @@ module Main where
   data HelloWorld = HelloWorld
 
   {-
+     | Front Controller Pattern of Yesod where all requests to app enter at same point for routing.
+     |
      | Abstract Boilerplate code into 'myYesod' TH Template Function. Noting that TH
      | Generates Textual Code including Type-Checked Abstract Syntax Trees ASTs).
      |
-     | 'mkYesod' Template Function takes two args:
+     | 'mkYesod' is a Template Function takes two args:
      |   - "HelloWorld" String of foundation type (generates glued code)
      |   - mkYesod (Quasi-Quoted code that introduces Embedded Domain-Specific Languages EDSLs)
      |
-     | 'mkYesod' introduces the EDSL (Parser Function) called 'parseRoutes' whose mini-language
-     | is included between the pipes, containing a list of Routes, Resources, and Methods (for access).
+     | 'mkYesod' introduces the EDSL (Parser Function) called 'parseRoutes' (which is a
+     | Quasi-Quoter) whose mini-language is included between the pipes, containing a list of Routes,
+     | Resources, and Methods (for access).
+     |
      | Note: 
      |   - '/' identifies website Root.
      |   - HomeR (i.e. Home Resource) is the Route Name (Data Constructor) used for embedded links
-     |   - GET is HTTP Request Method to access the web page
+     |   - GET is HTTP Request Method to access the web page that it answers requests from
      | 
      | 'mkYesod' Dispatches Requests for each Route to implemented Handlers
      | (i.e. Homepage Handler translation is / HomeR GET ==> getHomeR)

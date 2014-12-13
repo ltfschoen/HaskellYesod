@@ -26,6 +26,10 @@ Setup
     ```
     cabal install yesod
     ```
+  * Run GHC wth -ddump-splices Option to view generated code
+  ```
+  ghc main.hs -ddump-splices
+  ```
   * Open server on Port 3000 and load http://localhost:3000 in browser
   ```
   runhaskell main.hs
