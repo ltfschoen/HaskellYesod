@@ -5,14 +5,19 @@
 ---- | Main entry point to the App
 module Main where
 
-  -- | Yesod Framework Library is the "foundation" (in Hebrew) of the website
+  {-
+     | Yesod Framework Library is the "foundation" (in Hebrew) of the website.
+     | Yesod is built upon Web Application Interface (WAI) supporting FastCGI, SCGI, Warp, Webkit
+  -}
   import Yesod
 
   {-
      | Foundation Data Type definition of Data Constructor taking no arguments or data
-     | (similar to Global Variables)
+     | (similar to Global Variables). Central location to declare Settings Controlling
+     | the execution of the app (i.e. Routes, Instance Declaration, Store Initialisation Info,
+     | Database Connection Pool, Load Config File Settings, HTTP Connection Manager)
   -}
-  data HelloWorld = HelloWorld
+  data Links = Links
 
   {-
      | Front Controller Pattern of Yesod where all requests to app enter at same point for routing.
@@ -21,7 +26,7 @@ module Main where
      | Generates Textual Code including Type-Checked Abstract Syntax Trees ASTs).
      |
      | 'mkYesod' is a Template Function takes two args:
-     |   - "HelloWorld" String of foundation type (generates glued code)
+     |   - "Links" String of foundation type (generates glued code)
      |   - mkYesod (Quasi-Quoted code that introduces Embedded Domain-Specific Languages EDSLs)
      |
      | 'mkYesod' introduces the EDSL (Parser Function) called 'parseRoutes' (which is a
@@ -36,29 +41,38 @@ module Main where
      | 'mkYesod' Dispatches Requests for each Route to implemented Handlers
      | (i.e. Homepage Handler translation is / HomeR GET ==> getHomeR)
   -}
-  mkYesod "HelloWorld" [parseRoutes|
+  mkYesod "Links" [parseRoutes|
   / HomeR GET
+  /page1 Page1R GET
+  /page2 Page2R GET
   |]
 
   {- 
-     | HelloWorld Type is instance of Yesod Class defined in Yesod Library.
-     | Type Class instance is Interface-like with Virtual Functions and Default Implementations.
+     | HelloWorld Type ("foundation" Data Type) is instance of Yesod TypeClass defined in Yesod Library.
+     | TypeClass instance is Interface-like with Virtual Functions and Default Implementations.
      | Override Yesod Functions to Customize website feel and behaviour using the 'instance' 
      | Declaration.
   -}
-  instance Yesod HelloWorld
+  instance Yesod Links
 
   {-
      | Handler Implementation for Homepage Resource Route, where:
      |   - defaultLayout Virtual Function (of Yesod Type Class) called with default implementation 
-     |     laying out the HTML page and sends to browser (alternative is to Override it as part of 
-     |     the 'instance Yesod' statement).
+     |     and responds by wrapping given content in a HTML file with doctype, html, head, and body
+     |     tags for opening in a browser (alternative is to Override it as part of the 'instance
+     |     Yesod' statement).
      |   - whamlet (HTML EDSL) Widget-Hamlet version whose Argument creates the Contents as an 
      |     In-Line Widget (composable abstraction combining HTML, CSS, JS, etc). whamlet is
-     |     implemented using is a Quasi-Quotations.
+     |     implemented using is a Quasi-Quotations and converts Hamlet syntax into a Widget
+     |     (Modular Component) consisting of HTML, CSS, and JS for reuse.
+     |
+     | Note: Handler is to process user input, perform DB queries, and create responses (Controller)
+     | Note: Hamlet is default HTML templating engine in Yesod
   -}
-  getHomeR :: Handler Html -- RepHtml is deprecated
-  getHomeR = defaultLayout [whamlet|Hello World!|]
+  getHomeR  :: Handler Html -- RepHtml is deprecated
+  getHomeR  = defaultLayout [whamlet|<a href=@{Page1R}>Go to page 1!|]
+  getPage1R = defaultLayout [whamlet|<a href=@{Page2R}>Go to page 2!|]
+  getPage2R = defaultLayout [whamlet|<a href=@{HomeR}>Go home!|]
 
   -- | The main entry point.
   main :: IO ()
@@ -68,4 +82,4 @@ module Main where
       {-
         Warp is built-in backend and server written in Haskell. warpDebug is deprecated
       -}
-      warp 3000 HelloWorld
+      warp 3000 Links
