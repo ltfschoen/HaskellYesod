@@ -17,7 +17,7 @@ module Main where
      | the execution of the app (i.e. Routes, Instance Declaration, Store Initialisation Info,
      | Database Connection Pool, Load Config File Settings, HTTP Connection Manager)
   -}
-  data HelloWorld = HelloWorld
+  data Links = Links
 
   {-
      | Front Controller Pattern of Yesod where all requests to app enter at same point for routing.
@@ -26,7 +26,7 @@ module Main where
      | Generates Textual Code including Type-Checked Abstract Syntax Trees ASTs).
      |
      | 'mkYesod' is a Template Function takes two args:
-     |   - "HelloWorld" String of foundation type (generates glued code)
+     |   - "Links" String of foundation type (generates glued code)
      |   - mkYesod (Quasi-Quoted code that introduces Embedded Domain-Specific Languages EDSLs)
      |
      | 'mkYesod' introduces the EDSL (Parser Function) called 'parseRoutes' (which is a
@@ -41,8 +41,10 @@ module Main where
      | 'mkYesod' Dispatches Requests for each Route to implemented Handlers
      | (i.e. Homepage Handler translation is / HomeR GET ==> getHomeR)
   -}
-  mkYesod "HelloWorld" [parseRoutes|
+  mkYesod "Links" [parseRoutes|
   / HomeR GET
+  /page1 Page1R GET
+  /page2 Page2R GET
   |]
 
   {- 
@@ -51,7 +53,7 @@ module Main where
      | Override Yesod Functions to Customize website feel and behaviour using the 'instance' 
      | Declaration.
   -}
-  instance Yesod HelloWorld
+  instance Yesod Links
 
   {-
      | Handler Implementation for Homepage Resource Route, where:
@@ -67,8 +69,10 @@ module Main where
      | Note: Handler is to process user input, perform DB queries, and create responses (Controller)
      | Note: Hamlet is default HTML templating engine in Yesod
   -}
-  getHomeR :: Handler Html -- RepHtml is deprecated
-  getHomeR = defaultLayout [whamlet|Hello World!|]
+  getHomeR  :: Handler Html -- RepHtml is deprecated
+  getHomeR  = defaultLayout [whamlet|<a href=@{Page1R}>Go to page 1!|]
+  getPage1R = defaultLayout [whamlet|<a href=@{Page2R}>Go to page 2!|]
+  getPage2R = defaultLayout [whamlet|<a href=@{HomeR}>Go home!|]
 
   -- | The main entry point.
   main :: IO ()
@@ -78,4 +82,4 @@ module Main where
       {-
         Warp is built-in backend and server written in Haskell. warpDebug is deprecated
       -}
-      warp 3000 HelloWorld
+      warp 3000 Links
