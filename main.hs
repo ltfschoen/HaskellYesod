@@ -53,7 +53,7 @@ module Main where
      |     In-Line Widget (composable abstraction combining HTML, CSS, JS, etc). whamlet is
      |     implemented using is a Quasi-Quotations.
   -}
-  getHomeR :: Handler RepHtml
+  getHomeR :: Handler Html -- RepHtml is deprecated
   getHomeR = defaultLayout [whamlet|Hello World!|]
 
   -- | The main entry point.
@@ -62,6 +62,6 @@ module Main where
       -- putStrLn "Welcome to FP Haskell Center!"
       -- putStrLn "Have a good day!"
       {-
-        Warp is built-in backend and server written in Haskell
+        Warp is built-in backend and server written in Haskell. warpDebug is deprecated
       -}
-      warpDebug 3000 HelloWorld
+      warp 3000 HelloWorld

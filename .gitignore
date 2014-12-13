@@ -9,3 +9,8 @@ cabal-dev
 .cabal-sandbox/
 cabal.sandbox.config
 cabal.config
+
+client_session_key.aes
+main
+*.dyn_hi
+*.dyn_o
