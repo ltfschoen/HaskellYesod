@@ -10,7 +10,7 @@ name:                haskellyesod
 -- PVP summary:      +-+------- breaking API changes
 --                   | | +----- non-breaking API additions
 --                   | | | +--- code changes with no API change
-version:             0.1.0.0
+version:             0.0.0.1
 
 -- A short (one-line) description of the package.
 synopsis:            Web App using Haskell and Yesod
@@ -46,21 +46,26 @@ build-type:          Simple
 extra-source-files:  README.md
 
 -- Constraint on the version of Cabal needed to build this package.
-cabal-version:       >=1.10
+-- Matches the version shown when 'cabal --version' is run.
+cabal-version:       >=1.18.1.4
 
 
 executable haskellyesod
   -- .hs or .lhs file containing the Main module.
-  -- main-is:             
+  main-is:           main.hs             
   
   -- Modules included in this executable, other than Main.
-  -- other-modules:       
+  -- other-modules:
   
   -- LANGUAGE extensions used by modules in this package.
   -- other-extensions:    
   
   -- Other library packages from which modules are imported.
-  build-depends:       base >=4.7 && <4.8
+  build-depends:     base >=4.7 && <4.8,
+                     yesod >=1.4.1.1,
+                     shakespeare >=2.0.1.1,
+                     blaze-html >=0.7.0.3,
+                     text >=1.1.0.0
   
   -- Directories containing source files.
   -- hs-source-dirs:      
