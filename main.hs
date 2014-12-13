@@ -68,9 +68,12 @@ module Main where
      |
      | Note: Handler is to process user input, perform DB queries, and create responses (Controller)
      | Note: Hamlet is default HTML templating engine in Yesod
+     | Note: Type-Safe URLs used by making each Resource a Data Constructor and interpolating Haskell
+     |       values to textual URLs before sending to user (see -ddump-splices output).
+     |       Type-Safe URLs flexibility/robustness by allowing URLs to move around without breaking links
   -}
   getHomeR  :: Handler Html -- RepHtml is deprecated
-  getHomeR  = defaultLayout [whamlet|<a href=@{Page1R}>Go to page 1!|]
+  getHomeR  = defaultLayout [whamlet|<a href=@{Page1R}>Go to page 1!|] -- Type-Safe URLs
   getPage1R = defaultLayout [whamlet|<a href=@{Page2R}>Go to page 2!|]
   getPage2R = defaultLayout [whamlet|<a href=@{HomeR}>Go home!|]
 
