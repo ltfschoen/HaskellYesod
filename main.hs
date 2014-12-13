@@ -94,16 +94,19 @@ module Main where
         <a href=@{HomeR}>Go home!
         <a href=@{Page4R}>Go to page 4!
         |]
+  -- isAdmin has been hard coded as True
   getPage4R = do
     defaultLayout [whamlet|
-      $if isAdmin person -- isAdmin has been hard-coded as True
+      $doctype 5
+      $if isAdmin person
         <p>Hello, my name is #{name person} and I am #{show $ age person}.
         <p>
           My name sorted in alphabetical order is: #
           <b>#{sort $ Data.List.map Data.Char.toLower (name person)}
         <p>In 5 years I will be #{show (5 + (age person))} years old.
       $else
-        <p>No people
+        <p style="color:red">No people
+      <input type=checkbox :isAdmin person:checked>
       <a href=@{HomeR}>Go home!
     |]
     where
