@@ -5,12 +5,17 @@
 ---- | Main entry point to the App
 module Main where
 
-  -- | Yesod Framework Library is the "foundation" (in Hebrew) of the website
+  {-
+     | Yesod Framework Library is the "foundation" (in Hebrew) of the website.
+     | Yesod is built upon Web Application Interface (WAI) supporting FastCGI, SCGI, Warp, Webkit
+  -}
   import Yesod
 
   {-
      | Foundation Data Type definition of Data Constructor taking no arguments or data
-     | (similar to Global Variables)
+     | (similar to Global Variables). Central location to declare Settings Controlling
+     | the execution of the app (i.e. Routes, Instance Declaration, Store Initialisation Info,
+     | Database Connection Pool, Load Config File Settings, HTTP Connection Manager)
   -}
   data HelloWorld = HelloWorld
 
@@ -41,8 +46,8 @@ module Main where
   |]
 
   {- 
-     | HelloWorld Type is instance of Yesod Class defined in Yesod Library.
-     | Type Class instance is Interface-like with Virtual Functions and Default Implementations.
+     | HelloWorld Type ("foundation" Data Type) is instance of Yesod TypeClass defined in Yesod Library.
+     | TypeClass instance is Interface-like with Virtual Functions and Default Implementations.
      | Override Yesod Functions to Customize website feel and behaviour using the 'instance' 
      | Declaration.
   -}
@@ -51,11 +56,16 @@ module Main where
   {-
      | Handler Implementation for Homepage Resource Route, where:
      |   - defaultLayout Virtual Function (of Yesod Type Class) called with default implementation 
-     |     laying out the HTML page and sends to browser (alternative is to Override it as part of 
-     |     the 'instance Yesod' statement).
+     |     and responds by wrapping given content in a HTML file with doctype, html, head, and body
+     |     tags for opening in a browser (alternative is to Override it as part of the 'instance
+     |     Yesod' statement).
      |   - whamlet (HTML EDSL) Widget-Hamlet version whose Argument creates the Contents as an 
      |     In-Line Widget (composable abstraction combining HTML, CSS, JS, etc). whamlet is
-     |     implemented using is a Quasi-Quotations.
+     |     implemented using is a Quasi-Quotations and converts Hamlet syntax into a Widget
+     |     (Modular Component) consisting of HTML, CSS, and JS for reuse.
+     |
+     | Note: Handler is to process user input, perform DB queries, and create responses (Controller)
+     | Note: Hamlet is default HTML templating engine in Yesod
   -}
   getHomeR :: Handler Html -- RepHtml is deprecated
   getHomeR = defaultLayout [whamlet|Hello World!|]
