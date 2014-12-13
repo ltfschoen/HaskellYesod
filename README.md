@@ -12,6 +12,12 @@ Requirements
 * Cabal Alex Module
 
 
+Continuous Integration
+-------
+
+* [Travis CI Tests Status](https://travis-ci.org/ltfschoen/HaskellYesod)
+
+
 Setup
 -------
 
