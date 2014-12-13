@@ -47,7 +47,8 @@ extra-source-files:  README.md
 
 -- Constraint on the version of Cabal needed to build this package.
 -- Matches the version shown when 'cabal --version' is run.
-cabal-version:       >=1.18.1.4
+-- Changed to 1.18.0.2 in order to support Travis CI
+cabal-version:       >=1.18.0.2
 
 
 executable haskellyesod
