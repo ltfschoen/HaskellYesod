@@ -11,13 +11,27 @@ module Main where
   -}
   import Yesod
 
+  import Text.Hamlet                       -- (HtmlUrl, shamlet)
+  import Text.Blaze.Html.Renderer.String   -- (renderHtml)
+  import Data.Char                         -- (toLower)
+  import Data.List                         -- (sort)
+  import Data.Text                         -- (Text)
+
   {-
      | Foundation Data Type definition of Data Constructor taking no arguments or data
      | (similar to Global Variables). Central location to declare Settings Controlling
      | the execution of the app (i.e. Routes, Instance Declaration, Store Initialisation Info,
      | Database Connection Pool, Load Config File Settings, HTTP Connection Manager)
   -}
-  data Links = Links
+  data Links  = Links
+
+  data Person = Person
+      { name :: String
+      , age  :: Int
+      } deriving Show
+
+  isAdmin :: Person -> Bool
+  isAdmin _ = True
 
   {-
      | Front Controller Pattern of Yesod where all requests to app enter at same point for routing.
@@ -45,6 +59,7 @@ module Main where
   / HomeR GET
   /page1 Page1R GET
   /page2 Page2R GET
+  /page4 Page4R GET
   |]
 
   {- 
@@ -75,13 +90,29 @@ module Main where
   getHomeR  :: Handler Html -- RepHtml is deprecated
   getHomeR  = defaultLayout [whamlet|<a href=@{Page1R}>Go to page 1!|] -- Type-Safe URLs
   getPage1R = defaultLayout [whamlet|<a href=@{Page2R}>Go to page 2!|]
-  getPage2R = defaultLayout [whamlet|<a href=@{HomeR}>Go home!|]
+  getPage2R = defaultLayout [whamlet|
+        <a href=@{HomeR}>Go home!
+        <a href=@{Page4R}>Go to page 4!
+        |]
+  getPage4R = do
+    defaultLayout [whamlet|
+      $if isAdmin person -- isAdmin has been hard-coded as True
+        <p>Hello, my name is #{name person} and I am #{show $ age person}.
+        <p>
+          My name sorted in alphabetical order is: #
+          <b>#{sort $ Data.List.map Data.Char.toLower (name person)}
+        <p>In 5 years I will be #{show (5 + (age person))} years old.
+      $else
+        <p>No people
+      <a href=@{HomeR}>Go home!
+    |]
+    where
+      person = Person "Luke" 33
 
   -- | The main entry point.
   main :: IO ()
   main = do
-      -- putStrLn "Welcome to FP Haskell Center!"
-      -- putStrLn "Have a good day!"
+
       {-
         Warp is built-in backend and server written in Haskell. warpDebug is deprecated
       -}
