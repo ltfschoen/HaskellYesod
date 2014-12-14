@@ -1,1 +1,8 @@
 language: haskell
+deploy:
+  provider: heroku
+  api_key:
+    secure: cMFvjVqdMF3pBgrPNqfXO6yvSQFYg5mYWqNJp+dwiXwo1HRjLawTtUdSxKTl+bTqNexK5a4gn8qr4ti4HQWuyCA/gVA6IbCDlQw0ChnkBErMzSi1dzczJxmGjZSZymc6sXB8OvrIek3pNfLiswvC5ZNddFYIQtdwLe4hhy2UdI8=
+  app: 
+    master: haskellyesod
+  on: master
