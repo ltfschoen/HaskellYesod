@@ -11,11 +11,11 @@ module Main where
   -}
   import Yesod
 
-  import Text.Hamlet                       -- (HtmlUrl, shamlet)
-  import Text.Blaze.Html.Renderer.String   -- (renderHtml)
-  import Data.Char                         -- (toLower)
-  import Data.List                         -- (sort)
-  import Data.Text                         -- (Text)
+  import Text.Hamlet (HtmlUrl, shamlet)
+  import Text.Blaze.Html.Renderer.String (renderHtml)
+  import Data.Char (toLower)
+  import Data.List (sort, null, map)
+  import Data.Text (Text)
 
   {-
      | Foundation Data Type definition of Data Constructor taking no arguments or data
