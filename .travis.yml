@@ -1,6 +1,7 @@
 language: haskell
 deploy:
   provider: heroku
+  buildpack: https://github.com/mietek/haskell-on-heroku.git
   api_key:
     secure: cMFvjVqdMF3pBgrPNqfXO6yvSQFYg5mYWqNJp+dwiXwo1HRjLawTtUdSxKTl+bTqNexK5a4gn8qr4ti4HQWuyCA/gVA6IbCDlQw0ChnkBErMzSi1dzczJxmGjZSZymc6sXB8OvrIek3pNfLiswvC5ZNddFYIQtdwLe4hhy2UdI8=
   app: 
