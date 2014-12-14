@@ -88,11 +88,46 @@ module Main where
      |       Type-Safe URLs flexibility/robustness by allowing URLs to move around without breaking links
   -}
   getHomeR  :: Handler Html -- RepHtml is deprecated
-  getHomeR  = defaultLayout [whamlet|<a href=@{Page1R}>Go to page 1!|] -- Type-Safe URLs
-  getPage1R = defaultLayout [whamlet|<a href=@{Page2R}>Go to page 2!|]
+  getHomeR  = defaultLayout [whamlet|<a href=@{Page4R}>Go to page 4!|] -- Type-Safe URLs
+  getPage1R = defaultLayout $ do
+        -------
+        -- HEAD
+        -------
+        setTitle "Luke's Page Title"
+        toWidgetHead [hamlet|
+          <meta name=keywords content="haskell yesod test keywords">
+        |]
+        -------
+        -- CSS
+        -------
+        toWidget [lucius|
+          h1 { color: green; }
+        |]
+        -------
+        -- BODY CONTENT
+        -------
+        [whamlet|
+          <a href=@{HomeR}>Go home!
+        |]
+        toWidget [hamlet| <h1>Click this content for an alert
+        |]
+        -------
+        -- BODY JS
+        -------
+        toWidgetBody [julius|
+          alert("This script in the body itself.");
+        |]
+        addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"
+        toWidget [julius|
+          $(function() {
+            $("h1").click(function(){
+              alert("heading was clicked");
+            });
+          });
+        |]
   getPage2R = defaultLayout [whamlet|
         <a href=@{HomeR}>Go home!
-        <a href=@{Page4R}>Go to page 4!
+        <a href=@{Page1R}>Go to page 1!
         |]
   -- isAdmin has been hard coded as True
   getPage4R = do
@@ -107,7 +142,7 @@ module Main where
       $else
         <p style="color:red">No people
       <input type=checkbox :isAdmin person:checked>
-      <a href=@{HomeR}>Go home!
+      <a href=@{Page2R}>Go to page 2!
     |]
     where
       person = Person "Luke" 33
