@@ -11,11 +11,15 @@ module Main where
   -}
   import Yesod
 
-  import Text.Hamlet                       -- (HtmlUrl, shamlet)
-  import Text.Blaze.Html.Renderer.String   -- (renderHtml)
-  import Data.Char                         -- (toLower)
-  import Data.List                         -- (sort)
-  import Data.Text                         -- (Text)
+  import Text.Hamlet (HtmlUrl, shamlet)
+  import Text.Blaze.Html.Renderer.String (renderHtml)
+  import Data.Char (toLower)
+  import Data.List (sort, null, map)
+  import Data.Text (Text)
+  {- TODO - List Items
+  import Text.Blaze (ToMarkup, toMarkup)
+  import Text.Blaze.Internal (string)
+  -}
 
   {-
      | Foundation Data Type definition of Data Constructor taking no arguments or data
@@ -29,6 +33,19 @@ module Main where
       { name :: String
       , age  :: Int
       } deriving Show
+
+  {- TODO - List Items
+  data Item = Item
+      { itemName :: Text
+      , itemQty  :: Int
+      }
+
+  items :: [Item]
+  items =
+      [ Item "laptop" 2
+      , Item "mobile" 1
+      ]
+  -}
 
   isAdmin :: Person -> Bool
   isAdmin _ = True
@@ -61,6 +78,11 @@ module Main where
   /page2 Page2R GET
   /page4 Page4R GET
   |]
+
+  {- TODO - List Items
+  instance ToMarkup Item where
+     toMarkup = itemName.toMarkup
+  -}
 
   {- 
      | HelloWorld Type ("foundation" Data Type) is instance of Yesod TypeClass defined in Yesod Library.
@@ -108,6 +130,14 @@ module Main where
         <p style="color:red">No people
       <input type=checkbox :isAdmin person:checked>
       <a href=@{HomeR}>Go home!
+      {- TODO - List Items
+        $if Data.List.null items
+          <p>No items.
+        $else
+          <ul>
+            $forall itemName <- items
+              <li>#{itemName}
+      -}
     |]
     where
       person = Person "Luke" 33
