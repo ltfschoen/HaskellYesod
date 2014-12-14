@@ -1,6 +1,7 @@
 ---- | Language Pragmas of GHC Language Extensions
+---- | CPP - to control production versus debug
 {-# LANGUAGE TypeFamilies, QuasiQuotes, MultiParamTypeClasses, 
-               TemplateHaskell, OverloadedStrings #-}
+               TemplateHaskell, OverloadedStrings, CPP #-}
 
 ---- | Main entry point to the App
 module Main where
@@ -16,6 +17,10 @@ module Main where
   import Data.Char (toLower)
   import Data.List (sort, null, map)
   import Data.Text (Text)
+  -- Heroku Deployment
+  import System.Environment
+  import Web.Scotty
+  import Control.Monad
 
   {-
      | Foundation Data Type definition of Data Constructor taking no arguments or data
@@ -150,8 +155,14 @@ module Main where
   -- | The main entry point.
   main :: IO ()
   main = do
-
       {-
         Warp is built-in backend and server written in Haskell. warpDebug is deprecated
       -}
-      warp 3000 Links
+      -- PRODUCTION
+		port <- getEnv "PORT"    
+		  scotty (read port) $
+		    get "/" $
+		      text "hi"
+		  
+      -- DEVELOPMENT
+        --warp 3000 Links

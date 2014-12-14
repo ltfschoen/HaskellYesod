@@ -1,1 +1,1 @@
-web:
+web: ./dist/build/haskellyesod/haskellyesod

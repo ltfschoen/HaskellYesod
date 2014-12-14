@@ -62,11 +62,12 @@ executable haskellyesod
   -- other-extensions:    
   
   -- Other library packages from which modules are imported.
-  build-depends:     base >=4.6.0.1 && <4.8,
-                     yesod >=1.4.1.1,
-                     shakespeare >=2.0.1.1,
-                     blaze-html >=0.7.0.3,
-                     text >=1.1.0.0
+  build-depends:     base >=4.6.0.1 && <4.8
+                   , yesod >=1.4.1.1
+                   , shakespeare >=2.0.1.1
+                   , blaze-html >=0.7.0.3
+                   , text >=1.1.0.0
+                   , scotty >=0.9.0
   
   -- Directories containing source files.
   -- hs-source-dirs:      
